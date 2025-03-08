@@ -6,6 +6,16 @@ import sdk, {
   SignIn as SignInCore,
   type Context,
 } from "@farcaster/frame-sdk";
+
+type AppState = {
+  words: string[];
+  appreciation?: string;
+  notificationTime?: number;
+};
+
+const initialAppState: AppState = {
+  words: [],
+};
 import {
   Card,
   CardHeader,
@@ -25,6 +35,7 @@ import { PROJECT_TITLE, PROJECT_DESCRIPTION } from "~/lib/constants";
 export default function Frame() {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [context, setContext] = useState<Context.FrameContext>();
+  const [appState, setAppState] = useState<AppState>(initialAppState);
 
   const [added, setAdded] = useState(false);
 

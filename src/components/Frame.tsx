@@ -19,11 +19,7 @@ const NOTIFICATION_PRESETS = [
   18 * 60 * 60 * 1000,  // 6:00 PM
 ];
 
-const initialAppState: AppState = {
-  words: [],
-  history: [],
-  notificationTime: undefined,
-};
+import { useState } from "react";
 import Card, {
   CardHeader,
   CardTitle,
@@ -59,6 +55,7 @@ export default function Frame() {
   };
 
   const [shareStatus, setShareStatus] = useState("");
+  const [txHash, setTxHash] = useState<string>("");
   const [appState, setAppState] = useState<AppState>(() => {
     if (typeof window !== 'undefined') {
       try {

@@ -2,8 +2,6 @@
 
 import { useEffect, useCallback, useState } from "react";
 import sdk, {
-  AddFrame,
-  SignIn as SignInCore,
   type Context,
 } from "@farcaster/frame-sdk";
 
@@ -48,8 +46,13 @@ export default function Frame() {
 
   const [appState, setAppState] = useState<AppState>(() => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem(`${PROJECT_ID}-state`);
-      return saved ? JSON.parse(saved) : initialAppState;
+      try {
+        const saved = localStorage.getItem(`${PROJECT_ID}-state`);
+        return saved ? JSON.parse(saved) : initialAppState;
+      } catch (error) {
+        console.error('Error loading state from localStorage:', error);
+        return initialAppState;
+      }
     }
     return initialAppState;
   });

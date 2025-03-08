@@ -35,6 +35,17 @@ import { PROJECT_ID, PROJECT_TITLE, PROJECT_DESCRIPTION } from "~/lib/constants"
 export default function Frame() {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [context, setContext] = useState<Context.FrameContext>();
+  const [inputErrors, setInputErrors] = useState<{word1?: string; word2?: string; word3?: string}>({});
+  
+  const validateInput = (words: string[]) => {
+    const errors: typeof inputErrors = {};
+    if (words[0] && words[0].length > 12) errors.word1 = "Mindful moment too long";
+    if (words[1] && words[1].length > 12) errors.word2 = "Joyful thought too long"; 
+    if (words[2] && words[2].length > 12) errors.word3 = "Gratitude expression too long";
+    setInputErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const [appState, setAppState] = useState<AppState>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem(`${PROJECT_ID}-state`);
@@ -158,20 +169,26 @@ export default function Frame() {
               <input
                 id="word1"
                 className={`rounded-lg border p-3 text-lg focus:ring-2 focus:ring-purple-500 ${
+                  inputErrors.word1 ? 'border-red-500 focus:ring-red-200' : 
                   appState.words[0]?.length === 12 ? 'border-green-500' : ''
                 }`}
                 maxLength={12}
                 value={appState.words[0] || ''}
                 onChange={(e) => setAppState(prev => {
-                  const newState = {
+                  const newWords = [e.target.value, prev.words[1], prev.words[2]];
+                  validateInput(newWords);
+                  return {
                     ...prev,
-                    words: [e.target.value, prev.words[1], prev.words[2]]
+                    words: newWords
                   };
-                  console.log('Word 1 updated:', newState.words[0]);
-                  return newState;
                 })}
               />
-              <div className="text-sm text-neutral-500">
+              <div className={`text-sm ${
+                inputErrors.word1 ? 'text-red-600' : 'text-neutral-500'
+              }`}>
+                {inputErrors.word1 && (
+                  <div className="mb-1 font-medium">{inputErrors.word1}</div>
+                )}
                 <span>{12 - (appState.words[0]?.length || 0)} characters remaining</span>
                 <div className="relative h-8 mt-1">
                   <span className="absolute opacity-0 animate-placeholder">Mindful</span>
@@ -201,20 +218,26 @@ export default function Frame() {
               <input
                 id="word2"
                 className={`rounded-lg border p-3 text-lg focus:ring-2 focus:ring-purple-500 ${
+                  inputErrors.word2 ? 'border-red-500 focus:ring-red-200' : 
                   appState.words[1]?.length === 12 ? 'border-green-500' : ''
                 }`}
                 maxLength={12}
                 value={appState.words[1] || ''}
                 onChange={(e) => setAppState(prev => {
-                  const newState = {
+                  const newWords = [prev.words[0], e.target.value, prev.words[2]];
+                  validateInput(newWords);
+                  return {
                     ...prev,
-                    words: [prev.words[0], e.target.value, prev.words[2]]
+                    words: newWords
                   };
-                  console.log('Word 2 updated:', newState.words[1]);
-                  return newState;
                 })}
               />
-              <div className="text-sm text-neutral-500">
+              <div className={`text-sm ${
+                inputErrors.word2 ? 'text-red-600' : 'text-neutral-500'
+              }`}>
+                {inputErrors.word2 && (
+                  <div className="mb-1 font-medium">{inputErrors.word2}</div>
+                )}
                 <span>{12 - (appState.words[1]?.length || 0)} characters remaining</span>
                 <div className="relative h-8 mt-1">
                   <span className="absolute opacity-0 animate-placeholder">Joyful</span>
@@ -229,20 +252,26 @@ export default function Frame() {
               <input
                 id="word3"
                 className={`rounded-lg border p-3 text-lg focus:ring-2 focus:ring-purple-500 ${
+                  inputErrors.word3 ? 'border-red-500 focus:ring-red-200' : 
                   appState.words[2]?.length === 12 ? 'border-green-500' : ''
                 }`}
                 maxLength={12}
                 value={appState.words[2] || ''}
                 onChange={(e) => setAppState(prev => {
-                  const newState = {
+                  const newWords = [prev.words[0], prev.words[1], e.target.value];
+                  validateInput(newWords);
+                  return {
                     ...prev,
-                    words: [prev.words[0], prev.words[1], e.target.value]
+                    words: newWords
                   };
-                  console.log('Word 3 updated:', newState.words[2]);
-                  return newState;
                 })}
               />
-              <div className="text-sm text-neutral-500">
+              <div className={`text-sm ${
+                inputErrors.word3 ? 'text-red-600' : 'text-neutral-500'
+              }`}>
+                {inputErrors.word3 && (
+                  <div className="mb-1 font-medium">{inputErrors.word3}</div>
+                )}
                 <span>{12 - (appState.words[2]?.length || 0)} characters remaining</span>
                 <div className="relative h-8 mt-1">
                   <span className="absolute opacity-0 animate-placeholder">Grateful</span>

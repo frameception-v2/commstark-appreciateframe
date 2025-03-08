@@ -43,9 +43,10 @@ export default function Frame() {
     return initialAppState;
   });
 
-  // Debounced autosave to localStorage
+  // Debounced autosave to localStorage with logging
   useEffect(() => {
     const timeout = setTimeout(() => {
+      console.log('Autosaving state:', appState);
       localStorage.setItem(`${PROJECT_ID}-state`, JSON.stringify(appState));
     }, 500);
     
@@ -160,10 +161,14 @@ export default function Frame() {
                 placeholder="Start typing..."
                 maxLength={12}
                 value={appState.words[0] || ''}
-                onChange={(e) => setAppState(prev => ({
-                  ...prev,
-                  words: [e.target.value, prev.words[1], prev.words[2]]
-                }))}
+                onChange={(e) => setAppState(prev => {
+                  const newState = {
+                    ...prev,
+                    words: [e.target.value, prev.words[1], prev.words[2]]
+                  };
+                  console.log('Word 1 updated:', newState.words[0]);
+                  return newState;
+                })}
               />
               <div className="text-sm text-neutral-500">
                 {12 - (appState.words[0]?.length || 0)} characters remaining
@@ -178,10 +183,14 @@ export default function Frame() {
                 placeholder="Start typing..."
                 maxLength={12}
                 value={appState.words[1] || ''}
-                onChange={(e) => setAppState(prev => ({
-                  ...prev,
-                  words: [prev.words[0], e.target.value, prev.words[2]]
-                }))}
+                onChange={(e) => setAppState(prev => {
+                  const newState = {
+                    ...prev,
+                    words: [prev.words[0], e.target.value, prev.words[2]]
+                  };
+                  console.log('Word 2 updated:', newState.words[1]);
+                  return newState;
+                })}
               />
               <div className="text-sm text-neutral-500">
                 {12 - (appState.words[1]?.length || 0)} characters remaining
@@ -196,10 +205,14 @@ export default function Frame() {
                 placeholder="Start typing..."
                 maxLength={12}
                 value={appState.words[2] || ''}
-                onChange={(e) => setAppState(prev => ({
-                  ...prev,
-                  words: [prev.words[0], prev.words[1], e.target.value]
-                }))}
+                onChange={(e) => setAppState(prev => {
+                  const newState = {
+                    ...prev,
+                    words: [prev.words[0], prev.words[1], e.target.value]
+                  };
+                  console.log('Word 3 updated:', newState.words[2]);
+                  return newState;
+                })}
               />
               <div className="text-sm text-neutral-500">
                 {12 - (appState.words[2]?.length || 0)} characters remaining

@@ -4,7 +4,6 @@ import { useEffect, useCallback, useState } from "react";
 import sdk, {
   type FrameContext,
 } from "@farcaster/frame-sdk";
-import { createStore } from "@walletconnect/mipd";
 
 type AppState = {
   words: string[];
@@ -27,6 +26,7 @@ import { http } from "viem";
 import { base } from "wagmi/chains";
 import { truncateAddress } from "~/lib/truncateAddress";
 import { createStore } from "mipd";
+import { NEYNAR_API_KEY } from "~/lib/constants";
 import { Label } from "~/components/ui/label";
 import { PROJECT_ID, PROJECT_TITLE, PROJECT_DESCRIPTION } from "~/lib/constants";
 
@@ -109,7 +109,7 @@ export default function Frame() {
         `https://api.neynar.com/v2/farcaster/channel/search?q=appreciation`,
         {
           headers: {
-            'api_key': process.env.NEXT_PUBLIC_NEYNAR_API_KEY!
+            'api_key': NEYNAR_API_KEY
           }
         }
       );
@@ -129,7 +129,7 @@ export default function Frame() {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'api_key': process.env.NEXT_PUBLIC_NEYNAR_API_KEY!
+            'api_key': NEYNAR_API_KEY
           },
           body: JSON.stringify({
             text: text,
@@ -140,6 +140,7 @@ export default function Frame() {
 
       if (!castResponse.ok) throw new Error('Cast failed');
       setShowShareFeedback(true);
+      setShareStatus('');
       setTimeout(() => setShowShareFeedback(false), 3000);
     } catch (error) {
       console.error('Sharing failed:', error);

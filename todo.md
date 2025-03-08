@@ -19,7 +19,7 @@ Here's the optimized todo list for implementing the Farcaster Appreciation Frame
 - [x] Style output container with gradient and text wrapping (OutputComponent)
 - [x] Implement click-to-edit for generated text (OutputComponent)
 - [x] Add localStorage history stack (5 entries) (HistoryService)
-- [ ] Build share text formatter with #Appreciation hashtag (SharingService)
+- [x] Build share text formatter with #Appreciation hashtag (SharingService)
 
 **Actions**
 - [ ] Create notification toggle with time presets (ActionPanel)

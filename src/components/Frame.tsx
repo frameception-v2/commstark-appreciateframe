@@ -97,6 +97,20 @@ export default function Frame() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [showShareFeedback, setShowShareFeedback] = useState(false);
+
+  const handleShare = useCallback(async (text: string) => {
+    try {
+      await sdk.actions.share({
+        text: text,
+        channel: "appreciation"
+      });
+      setShowShareFeedback(true);
+      setTimeout(() => setShowShareFeedback(false), 3000);
+    } catch (error) {
+      console.error('Sharing failed:', error);
+    }
+  }, []);
   
   // Simple transformation function with loading state
   const transformWords = useCallback(async (words: string[]) => {
@@ -105,12 +119,12 @@ export default function Frame() {
       // Simulate AI processing delay
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Basic transformation with random variations
+      // Basic transformation with random variations and consistent hashtag
       const appreciations = [
-        `Today I embrace being ${words[0]}, find joy in ${words[1]}, and am grateful for ${words[2]}. #DailyAppreciation`,
-        `Mindful of ${words[0]}, joyful about ${words[1]}, thankful for ${words[2]} - this is my gratitude anchor.`,
-        `${words[0]} moments lead to ${words[1]} experiences, all rooted in gratitude for ${words[2]}.`
-      ];
+        `Embracing ${words[0]} moments, finding joy in ${words[1]}, and grateful for ${words[2]}.`,
+        `Mindful of ${words[0]}, joyful about ${words[1]}, thankful for ${words[2]}.`,
+        `${words[0]} → ${words[1]} → ${words[2]} - today's gratitude journey.`
+      ].map(text => `${text} #DailyAppreciation`);
       
       const newAppreciation = appreciations[Math.floor(Math.random() * appreciations.length)];
       setAppState(prev => ({

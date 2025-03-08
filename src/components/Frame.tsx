@@ -12,9 +12,17 @@ type AppState = {
   history: string[];
 };
 
+// Notification time presets in milliseconds since midnight
+const NOTIFICATION_PRESETS = [
+  9 * 60 * 60 * 1000,   // 9:00 AM
+  12 * 60 * 60 * 1000,  // 12:00 PM
+  18 * 60 * 60 * 1000,  // 6:00 PM
+];
+
 const initialAppState: AppState = {
   words: [],
   history: [],
+  notificationTime: undefined,
 };
 import Card, {
   CardHeader,
@@ -101,6 +109,13 @@ export default function Frame() {
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [showShareFeedback, setShowShareFeedback] = useState(false);
+
+  const handleNotificationToggle = useCallback((time: number) => {
+    setAppState(prev => ({
+      ...prev,
+      notificationTime: prev.notificationTime === time ? undefined : time
+    }));
+  }, []);
 
   const handleShare = useCallback(async (text: string) => {
     try {
@@ -448,6 +463,32 @@ export default function Frame() {
                 >
                   Share Appreciation
                 </button>
+
+                <div className="mt-4 border-t border-purple-100 pt-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-purple-900">Daily Reminder</span>
+                    <span className="text-sm text-purple-600">
+                      {appState.notificationTime ? 
+                        new Date(appState.notificationTime).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}) :
+                        'Not set'}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 mt-2">
+                    {NOTIFICATION_PRESETS.map((time) => (
+                      <button
+                        key={time}
+                        onClick={() => handleNotificationToggle(time)}
+                        className={`text-sm py-2 rounded-lg transition-colors ${
+                          appState.notificationTime === time ?
+                          'bg-purple-600 text-white' :
+                          'bg-purple-100 text-purple-900 hover:bg-purple-200'
+                        }`}
+                      >
+                        {new Date(time).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}
+                      </button>
+                    ))}
+                  </div>
+                </div>
                 {showShareFeedback && (
                   <div className="text-center text-green-600 text-sm mt-2">
                     Shared to Farcaster!

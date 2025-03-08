@@ -22,7 +22,7 @@ Here's the optimized todo list for implementing the Farcaster Appreciation Frame
 - [x] Build share text formatter with #Appreciation hashtag (SharingService)
 
 **Actions**
-- [ ] Create notification toggle with time presets (ActionPanel)
+- [x] Create notification toggle with time presets (ActionPanel)
 - [x] Implement Neynar API integration for casting (APIService)
 - [x] Add channel resolution via Neynar search (APIService)
 - [ ] Build cast preview modal with confirmation (ActionPanel)

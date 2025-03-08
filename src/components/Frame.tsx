@@ -22,7 +22,8 @@ import {
   CardContent,
 } from "~/components/ui/card";
 
-import { config } from "~/components/providers/WagmiProvider";
+import { createConfig } from "@wagmi/core";
+import { http } from "viem";
 import { truncateAddress } from "~/lib/truncateAddress";
 import { base } from "wagmi/chains";
 import { createStore } from "mipd";

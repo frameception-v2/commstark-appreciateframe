@@ -17,10 +17,9 @@ import {
 import { config } from "~/components/providers/WagmiProvider";
 import { truncateAddress } from "~/lib/truncateAddress";
 import { base, optimism } from "wagmi/chains";
-import { useSession } from "next-auth/react";
 import { createStore } from "mipd";
 import { Label } from "~/components/ui/label";
-import { PROJECT_TITLE } from "~/lib/constants";
+import { PROJECT_TITLE, PROJECT_DESCRIPTION } from "~/lib/constants";
 
 
 export default function Frame() {
@@ -122,9 +121,7 @@ export default function Frame() {
       }}
     >
       <div className="w-[300px] mx-auto py-2 px-2">
-        <head>
-          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        </head>
+        {/* Viewport meta tag is handled by Next.js in app/layout.tsx */}
         <Card>
           <CardHeader>
             <CardTitle className="text-center">{PROJECT_TITLE}</CardTitle>

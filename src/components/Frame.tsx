@@ -9,10 +9,12 @@ type AppState = {
   words: string[];
   appreciation?: string;
   notificationTime?: number;
+  history: string[];
 };
 
 const initialAppState: AppState = {
   words: [],
+  history: [],
 };
 import {
   Card,
@@ -110,9 +112,11 @@ export default function Frame() {
         `${words[0]} moments lead to ${words[1]} experiences, all rooted in gratitude for ${words[2]}.`
       ];
       
+      const newAppreciation = appreciations[Math.floor(Math.random() * appreciations.length)];
       setAppState(prev => ({
         ...prev,
-        appreciation: appreciations[Math.floor(Math.random() * appreciations.length)]
+        appreciation: newAppreciation,
+        history: [newAppreciation, ...prev.history].slice(0, 5) // Keep last 5 entries
       }));
     } finally {
       setIsLoading(false);
@@ -387,6 +391,26 @@ export default function Frame() {
                     {appState.appreciation}
                   </div>
                 )}
+              </div>
+            )}
+
+            {appState.history.length > 0 && (
+              <div className="mt-6 space-y-2">
+                <h3 className="text-sm font-medium text-purple-900">Recent History</h3>
+                <div className="flex flex-col gap-2 max-h-[200px] overflow-y-auto">
+                  {appState.history.map((item, index) => (
+                    <div
+                      key={index}
+                      className="p-3 text-sm bg-white/50 backdrop-blur-sm rounded-lg border border-purple-100 cursor-pointer hover:bg-purple-50/50 transition-colors"
+                      onClick={() => setAppState(prev => ({
+                        ...prev,
+                        appreciation: item
+                      }))}
+                    >
+                      {item}
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </CardContent>

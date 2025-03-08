@@ -18,7 +18,7 @@ Here's the optimized todo list for implementing the Farcaster Appreciation Frame
 - [x] Create transformation function with loading spinner (AIGenerator)
 - [x] Style output container with gradient and text wrapping (OutputComponent)
 - [x] Implement click-to-edit for generated text (OutputComponent)
-- [ ] Add localStorage history stack (5 entries) (HistoryService)
+- [x] Add localStorage history stack (5 entries) (HistoryService)
 - [ ] Build share text formatter with #Appreciation hashtag (SharingService)
 
 **Actions**

@@ -155,6 +155,61 @@ export default function Frame() {
               {PROJECT_DESCRIPTION}
             </CardDescription>
           </CardHeader>
+          <CardContent className="flex flex-col gap-4 p-6">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="word1">Mindful Moment</Label>
+              <input
+                id="word1"
+                className="rounded-lg border p-3 text-lg focus:ring-2 focus:ring-purple-500"
+                placeholder="Start typing..."
+                maxLength={12}
+                value={appState.words[0] || ''}
+                onChange={(e) => setAppState(prev => ({
+                  ...prev,
+                  words: [e.target.value, prev.words[1], prev.words[2]]
+                }))}
+              />
+              <div className="text-sm text-neutral-500">
+                {12 - (appState.words[0]?.length || 0)} characters remaining
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="word2">Joyful Thought</Label>
+              <input
+                id="word2"
+                className="rounded-lg border p-3 text-lg focus:ring-2 focus:ring-purple-500"
+                placeholder="Start typing..."
+                maxLength={12}
+                value={appState.words[1] || ''}
+                onChange={(e) => setAppState(prev => ({
+                  ...prev,
+                  words: [prev.words[0], e.target.value, prev.words[2]]
+                }))}
+              />
+              <div className="text-sm text-neutral-500">
+                {12 - (appState.words[1]?.length || 0)} characters remaining
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="word3">Grateful For</Label>
+              <input
+                id="word3"
+                className="rounded-lg border p-3 text-lg focus:ring-2 focus:ring-purple-500"
+                placeholder="Start typing..."
+                maxLength={12}
+                value={appState.words[2] || ''}
+                onChange={(e) => setAppState(prev => ({
+                  ...prev,
+                  words: [prev.words[0], prev.words[1], e.target.value]
+                }))}
+              />
+              <div className="text-sm text-neutral-500">
+                {12 - (appState.words[2]?.length || 0)} characters remaining
+              </div>
+            </div>
+          </CardContent>
         </Card>
         </div>
       </div>

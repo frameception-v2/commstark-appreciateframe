@@ -18,8 +18,6 @@ const NOTIFICATION_PRESETS = [
   12 * 60 * 60 * 1000,  // 12:00 PM
   18 * 60 * 60 * 1000,  // 6:00 PM
 ];
-
-import { useState } from "react";
 import Card, {
   CardHeader,
   CardTitle,
@@ -123,7 +121,7 @@ export default function Frame() {
 
   const handleConfirmCast = useCallback(async (text: string) => {
     setShowCastPreview(false);
-    try => {
+    try {
       // First find the channel ID for "appreciation"
       const searchResponse = await fetch(
         `https://api.neynar.com/v2/farcaster/channel/search?q=appreciation`,
@@ -455,7 +453,7 @@ export default function Frame() {
                   />
                 ) : (
                   <div 
-                    className="relative z-10 text-xl leading-relaxed text-purple-900 break-words hyphens-auto overflow-wrap-anywhere cursor-text"
+                    className="relative z-10 text-xl leading-relaxed text-purple-900 break-words hyphens-auto overflow-wrap-break-word cursor-text"
                     style={{textShadow: '0 2px 4px rgba(245, 243, 255, 0.5)'}}
                     onClick={() => setIsEditing(true)}
                   >

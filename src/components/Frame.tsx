@@ -16,15 +16,14 @@ const initialAppState: AppState = {
   words: [],
   history: [],
 };
-import {
-  Card,
+import Card, {
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
 } from "~/components/ui/card";
 
-import { createConfig } from "@wagmi/core";
+import { createConfig } from "wagmi";
 import { http } from "viem";
 import { base } from "wagmi/chains";
 import { truncateAddress } from "~/lib/truncateAddress";
@@ -32,6 +31,10 @@ import { createStore } from "mipd";
 import { Label } from "~/components/ui/label";
 import { PROJECT_ID, PROJECT_TITLE, PROJECT_DESCRIPTION } from "~/lib/constants";
 
+const initialAppState: AppState = {
+  words: [],
+  history: [],
+};
 
 export default function Frame() {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);

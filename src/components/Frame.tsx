@@ -275,6 +275,14 @@ export default function Frame() {
                 .delay-2000 {
                   animation-delay: 2s;
                 }
+                
+                @keyframes gradient-spin {
+                  0% { transform: rotate(0deg); }
+                  100% { transform: rotate(360deg); }
+                }
+                .animate-gradient-spin {
+                  animation: gradient-spin 20s linear infinite;
+                }
               `}</style>
             </div>
 
@@ -353,9 +361,12 @@ export default function Frame() {
             )}
 
             {appState.appreciation && !isLoading && (
-              <div className="mt-6 p-4 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg relative">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white opacity-50"></div>
-                <p className="relative z-10 text-lg leading-relaxed text-purple-900 break-words">
+              <div className="mt-6 p-6 bg-gradient-to-br from-purple-100/80 via-blue-50 to-pink-100/80 rounded-xl relative shadow-lg hover:shadow-xl transition-shadow">
+                <div className="absolute inset-0 bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))] from-purple-200/20 via-transparent to-blue-200/20 animate-gradient-spin" />
+                <p 
+                  className="relative z-10 text-xl leading-relaxed text-purple-900 break-words hyphens-auto overflow-wrap-anywhere"
+                  style={{textShadow: '0 2px 4px rgba(245, 243, 255, 0.5)'}}
+                >
                   {appState.appreciation}
                 </p>
               </div>

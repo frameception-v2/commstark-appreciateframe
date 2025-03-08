@@ -67,6 +67,16 @@ export default function Frame() {
     return () => clearTimeout(timeout);
   }, [appState]);
 
+  // Auto-submit when all fields are valid
+  useEffect(() => {
+    if (appState.words.length === 3 && 
+        appState.words.every(word => word && word.length > 0 && word.length <= 12) &&
+        Object.keys(inputErrors).length === 0) {
+      console.log('All fields filled - submitting...');
+      // TODO: Implement AI transformation
+    }
+  }, [appState.words, inputErrors]);
+
   const [added, setAdded] = useState(false);
 
   const [addFrameResult, setAddFrameResult] = useState("");

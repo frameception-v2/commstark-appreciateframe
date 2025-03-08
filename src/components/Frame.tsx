@@ -92,13 +92,38 @@ export default function Frame() {
     };
   }, []);
 
+  const [isLoading, setIsLoading] = useState(false);
+  
+  // Simple transformation function with loading state
+  const transformWords = useCallback(async (words: string[]) => {
+    setIsLoading(true);
+    try {
+      // Simulate AI processing delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Basic transformation with random variations
+      const appreciations = [
+        `Today I embrace being ${words[0]}, find joy in ${words[1]}, and am grateful for ${words[2]}. #DailyAppreciation`,
+        `Mindful of ${words[0]}, joyful about ${words[1]}, thankful for ${words[2]} - this is my gratitude anchor.`,
+        `${words[0]} moments lead to ${words[1]} experiences, all rooted in gratitude for ${words[2]}.`
+      ];
+      
+      setAppState(prev => ({
+        ...prev,
+        appreciation: appreciations[Math.floor(Math.random() * appreciations.length)]
+      }));
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   // Auto-submit when all fields are valid
   useEffect(() => {
     if (appState.words.length === 3 && 
         appState.words.every(word => word && word.length > 0 && word.length <= 12) &&
         Object.keys(inputErrors).length === 0) {
       console.log('All fields filled - submitting...');
-      // TODO: Implement AI transformation
+      transformWords(appState.words);
     }
   }, [appState.words, inputErrors]);
 
@@ -320,6 +345,21 @@ export default function Frame() {
                 </div>
               </div>
             </div>
+
+            {isLoading && (
+              <div className="flex justify-center py-8">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+              </div>
+            )}
+
+            {appState.appreciation && !isLoading && (
+              <div className="mt-6 p-4 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg relative">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white opacity-50"></div>
+                <p className="relative z-10 text-lg leading-relaxed text-purple-900 break-words">
+                  {appState.appreciation}
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
         </div>

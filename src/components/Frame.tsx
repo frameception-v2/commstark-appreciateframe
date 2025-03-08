@@ -22,21 +22,6 @@ import { createStore } from "mipd";
 import { Label } from "~/components/ui/label";
 import { PROJECT_TITLE } from "~/lib/constants";
 
-function ExampleCard() {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Welcome to the Frame Template</CardTitle>
-        <CardDescription>
-          This is an example card that you can customize or remove
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Label>Place content in a Card here.</Label>
-      </CardContent>
-    </Card>
-  );
-}
 
 export default function Frame() {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
@@ -137,7 +122,17 @@ export default function Frame() {
       }}
     >
       <div className="w-[300px] mx-auto py-2 px-2">
-        <ExampleCard />
+        <head>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        </head>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-center">{PROJECT_TITLE}</CardTitle>
+            <CardDescription className="text-center">
+              {PROJECT_DESCRIPTION}
+            </CardDescription>
+          </CardHeader>
+        </Card>
       </div>
     </div>
   );

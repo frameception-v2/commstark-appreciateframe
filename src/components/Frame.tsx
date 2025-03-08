@@ -102,14 +102,45 @@ export default function Frame() {
 
   const handleShare = useCallback(async (text: string) => {
     try {
-      await sdk.actions.share({
-        text: text,
-        channel: "appreciation"
-      });
+      // First find the channel ID for "appreciation"
+      const searchResponse = await fetch(
+        `https://api.neynar.com/v2/farcaster/cast/search?channel_id=appreciation&q=is:channel`,
+        {
+          headers: {
+            'api_key': process.env.NEXT_PUBLIC_NEYNAR_API_KEY!
+          }
+        }
+      );
+      
+      if (!searchResponse.ok) throw new Error('Channel search failed');
+      const searchData = await searchResponse.json();
+      
+      const channel = searchData.result.channels.find((c: any) => c.id === 'appreciation');
+      if (!channel) throw new Error('Appreciation channel not found');
+      
+      // Now create the cast
+      const castResponse = await fetch(
+        'https://api.neynar.com/v2/farcaster/cast',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'api_key': process.env.NEXT_PUBLIC_NEYNAR_API_KEY!
+          },
+          body: JSON.stringify({
+            text: text,
+            channel_id: channel.id
+          })
+        }
+      );
+
+      if (!castResponse.ok) throw new Error('Cast failed');
       setShowShareFeedback(true);
       setTimeout(() => setShowShareFeedback(false), 3000);
     } catch (error) {
       console.error('Sharing failed:', error);
+      setShareStatus(error instanceof Error ? error.message : 'Sharing failed');
+      setTimeout(() => setShareStatus(''), 3000);
     }
   }, []);
   

@@ -95,6 +95,7 @@ export default function Frame() {
   }, []);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   
   // Simple transformation function with loading state
   const transformWords = useCallback(async (words: string[]) => {
@@ -365,12 +366,28 @@ export default function Frame() {
             {appState.appreciation && !isLoading && (
               <div className="mt-6 p-6 bg-gradient-to-br from-purple-100/80 via-blue-50 to-pink-100/80 rounded-xl relative shadow-lg hover:shadow-xl transition-shadow">
                 <div className="absolute inset-0 bg-[conic-gradient(at_top_left,_var(--tw-gradient-stops))] from-purple-200/20 via-transparent to-blue-200/20 animate-gradient-spin" />
-                <p 
-                  className="relative z-10 text-xl leading-relaxed text-purple-900 break-words hyphens-auto overflow-wrap-anywhere"
-                  style={{textShadow: '0 2px 4px rgba(245, 243, 255, 0.5)'}}
-                >
-                  {appState.appreciation}
-                </p>
+                {isEditing ? (
+                  <textarea
+                    className="relative z-10 text-xl leading-relaxed text-purple-900 break-words hyphens-auto overflow-wrap-anywhere w-full bg-transparent border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-purple-300"
+                    style={{textShadow: '0 2px 4px rgba(245, 243, 255, 0.5)'}}
+                    value={appState.appreciation}
+                    onChange={(e) => setAppState(prev => ({
+                      ...prev,
+                      appreciation: e.target.value
+                    }))}
+                    onBlur={() => setIsEditing(false)}
+                    onKeyDown={(e) => e.key === 'Enter' && setIsEditing(false)}
+                    autoFocus
+                  />
+                ) : (
+                  <div 
+                    className="relative z-10 text-xl leading-relaxed text-purple-900 break-words hyphens-auto overflow-wrap-anywhere cursor-text"
+                    style={{textShadow: '0 2px 4px rgba(245, 243, 255, 0.5)'}}
+                    onClick={() => setIsEditing(true)}
+                  >
+                    {appState.appreciation}
+                  </div>
+                )}
               </div>
             )}
           </CardContent>

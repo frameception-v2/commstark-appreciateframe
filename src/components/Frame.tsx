@@ -146,13 +146,15 @@ export default function Frame() {
 
   // Detect mobile keyboard via viewport height
   useEffect(() => {
+    if (typeof window === 'undefined') return; // Prevent SSR issues
+
     const handleViewportChange = () => {
       const isKeyboardActive = window.visualViewport?.height < window.innerHeight * 0.8;
       setIsKeyboardOpen(!!isKeyboardActive);
     };
 
     // Use visualViewport API if available
-    if (window.visualViewport) {
+    if (typeof window.visualViewport !== 'undefined') {
       window.visualViewport.addEventListener('resize', handleViewportChange);
     } else {
       // Fallback to window resize

@@ -34,6 +34,7 @@ export default function Frame() {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [context, setContext] = useState<Context.FrameContext>();
   const [inputErrors, setInputErrors] = useState<{word1?: string; word2?: string; word3?: string}>({});
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   
   const validateInput = (words: string[]) => {
     const errors: typeof inputErrors = {};
@@ -66,6 +67,30 @@ export default function Frame() {
     
     return () => clearTimeout(timeout);
   }, [appState]);
+
+  // Detect mobile keyboard via viewport height
+  useEffect(() => {
+    const handleViewportChange = () => {
+      const isKeyboardActive = window.visualViewport?.height < window.innerHeight * 0.8;
+      setIsKeyboardOpen(!!isKeyboardActive);
+    };
+
+    // Use visualViewport API if available
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', handleViewportChange);
+    } else {
+      // Fallback to window resize
+      window.addEventListener('resize', handleViewportChange);
+    }
+
+    return () => {
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', handleViewportChange);
+      } else {
+        window.removeEventListener('resize', handleViewportChange);
+      }
+    };
+  }, []);
 
   // Auto-submit when all fields are valid
   useEffect(() => {
@@ -167,7 +192,9 @@ export default function Frame() {
         paddingRight: context?.client.safeAreaInsets?.right ?? 0,
       }}
     >
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 w-full max-w-6xl mx-auto">
+      <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 p-4 w-full max-w-6xl mx-auto ${
+        isKeyboardOpen ? 'pb-[40vh]' : '' // Add padding when keyboard is open
+      }`}>
         <div className="md:col-span-2">
           <Card className="h-full">
           <CardHeader>

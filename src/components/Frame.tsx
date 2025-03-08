@@ -157,8 +157,9 @@ export default function Frame() {
               <Label htmlFor="word1">Mindful Moment</Label>
               <input
                 id="word1"
-                className="rounded-lg border p-3 text-lg focus:ring-2 focus:ring-purple-500"
-                placeholder="Start typing..."
+                className={`rounded-lg border p-3 text-lg focus:ring-2 focus:ring-purple-500 ${
+                  appState.words[0]?.length === 12 ? 'border-green-500' : ''
+                }`}
                 maxLength={12}
                 value={appState.words[0] || ''}
                 onChange={(e) => setAppState(prev => {
@@ -171,16 +172,37 @@ export default function Frame() {
                 })}
               />
               <div className="text-sm text-neutral-500">
-                {12 - (appState.words[0]?.length || 0)} characters remaining
+                <span>{12 - (appState.words[0]?.length || 0)} characters remaining</span>
+                <div className="relative h-8 mt-1">
+                  <span className="absolute opacity-0 animate-placeholder">Mindful</span>
+                  <span className="absolute opacity-0 animate-placeholder delay-1000">Present</span>
+                  <span className="absolute opacity-0 animate-placeholder delay-2000">Calm</span>
+                </div>
               </div>
+              <style>{`
+                @keyframes placeholder-pulse {
+                  0%, 100% { opacity: 0; }
+                  50% { opacity: 1; }
+                }
+                .animate-placeholder {
+                  animation: placeholder-pulse 3s infinite;
+                }
+                .delay-1000 {
+                  animation-delay: 1s;
+                }
+                .delay-2000 {
+                  animation-delay: 2s;
+                }
+              `}</style>
             </div>
 
             <div className="flex flex-col gap-2">
               <Label htmlFor="word2">Joyful Thought</Label>
               <input
                 id="word2"
-                className="rounded-lg border p-3 text-lg focus:ring-2 focus:ring-purple-500"
-                placeholder="Start typing..."
+                className={`rounded-lg border p-3 text-lg focus:ring-2 focus:ring-purple-500 ${
+                  appState.words[1]?.length === 12 ? 'border-green-500' : ''
+                }`}
                 maxLength={12}
                 value={appState.words[1] || ''}
                 onChange={(e) => setAppState(prev => {
@@ -193,7 +215,12 @@ export default function Frame() {
                 })}
               />
               <div className="text-sm text-neutral-500">
-                {12 - (appState.words[1]?.length || 0)} characters remaining
+                <span>{12 - (appState.words[1]?.length || 0)} characters remaining</span>
+                <div className="relative h-8 mt-1">
+                  <span className="absolute opacity-0 animate-placeholder">Joyful</span>
+                  <span className="absolute opacity-0 animate-placeholder delay-1000">Happy</span>
+                  <span className="absolute opacity-0 animate-placeholder delay-2000">Smiling</span>
+                </div>
               </div>
             </div>
 
@@ -201,8 +228,9 @@ export default function Frame() {
               <Label htmlFor="word3">Grateful For</Label>
               <input
                 id="word3"
-                className="rounded-lg border p-3 text-lg focus:ring-2 focus:ring-purple-500"
-                placeholder="Start typing..."
+                className={`rounded-lg border p-3 text-lg focus:ring-2 focus:ring-purple-500 ${
+                  appState.words[2]?.length === 12 ? 'border-green-500' : ''
+                }`}
                 maxLength={12}
                 value={appState.words[2] || ''}
                 onChange={(e) => setAppState(prev => {
@@ -215,7 +243,12 @@ export default function Frame() {
                 })}
               />
               <div className="text-sm text-neutral-500">
-                {12 - (appState.words[2]?.length || 0)} characters remaining
+                <span>{12 - (appState.words[2]?.length || 0)} characters remaining</span>
+                <div className="relative h-8 mt-1">
+                  <span className="absolute opacity-0 animate-placeholder">Grateful</span>
+                  <span className="absolute opacity-0 animate-placeholder delay-1000">Thankful</span>
+                  <span className="absolute opacity-0 animate-placeholder delay-2000">Blessed</span>
+                </div>
               </div>
             </div>
           </CardContent>

@@ -9,7 +9,7 @@ Here's the optimized todo list for implementing the Farcaster Appreciation Frame
 
 **Core Input**
 - [x] Build vertical flex layout with 3 text inputs (InputComponent)
-- [ ] Implement animated placeholders and 12-char limits (InputComponent)
+- [x] Implement animated placeholders and 12-char limits (InputComponent)
 - [ ] Create input validation state and error handling (InputLogic)
 - [ ] Add auto-submit when all fields filled (InputLogic)
 - [ ] Implement viewport height-based keyboard detection (MobileLayout)

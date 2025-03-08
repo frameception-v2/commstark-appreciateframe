@@ -405,6 +405,17 @@ export default function Frame() {
                     {appState.appreciation}
                   </div>
                 )}
+                <button
+                  onClick={() => handleShare(appState.appreciation!)}
+                  className="mt-4 w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+                >
+                  Share Appreciation
+                </button>
+                {showShareFeedback && (
+                  <div className="text-center text-green-600 text-sm mt-2">
+                    Shared to Farcaster!
+                  </div>
+                )}
               </div>
             )}
 

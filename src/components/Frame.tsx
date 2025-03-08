@@ -120,9 +120,9 @@ export default function Frame() {
         paddingRight: context?.client.safeAreaInsets?.right ?? 0,
       }}
     >
-      <div className="w-[300px] mx-auto py-2 px-2">
-        {/* Viewport meta tag is handled by Next.js in app/layout.tsx */}
-        <Card>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 w-full max-w-6xl mx-auto">
+        <div className="md:col-span-2">
+          <Card className="h-full">
           <CardHeader>
             <CardTitle className="text-center">{PROJECT_TITLE}</CardTitle>
             <CardDescription className="text-center">
@@ -130,6 +130,7 @@ export default function Frame() {
             </CardDescription>
           </CardHeader>
         </Card>
+        </div>
       </div>
     </div>
   );

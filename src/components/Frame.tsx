@@ -24,6 +24,7 @@ import {
 
 import { createConfig } from "@wagmi/core";
 import { http } from "viem";
+import { base } from "wagmi/chains";
 import { truncateAddress } from "~/lib/truncateAddress";
 import { base } from "wagmi/chains";
 import { createStore } from "mipd";

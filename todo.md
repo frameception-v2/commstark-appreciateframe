@@ -24,7 +24,7 @@ Here's the optimized todo list for implementing the Farcaster Appreciation Frame
 **Actions**
 - [ ] Create notification toggle with time presets (ActionPanel)
 - [x] Implement Neynar API integration for casting (APIService)
-- [ ] Add channel resolution via Neynar search (APIService)
+- [x] Add channel resolution via Neynar search (APIService)
 - [ ] Build cast preview modal with confirmation (ActionPanel)
 - [ ] Create notification scheduler with timestamps (Scheduler)
 

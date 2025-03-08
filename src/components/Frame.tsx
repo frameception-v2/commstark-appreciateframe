@@ -56,6 +56,8 @@ export default function Frame() {
 
   const [shareStatus, setShareStatus] = useState("");
   const [txHash, setTxHash] = useState<string>("");
+  const [showCastPreview, setShowCastPreview] = useState(false);
+  const [castPreviewText, setCastPreviewText] = useState("");
   const [appState, setAppState] = useState<AppState>(() => {
     if (typeof window !== 'undefined') {
       try {
@@ -114,8 +116,14 @@ export default function Frame() {
     }));
   }, []);
 
-  const handleShare = useCallback(async (text: string) => {
-    try {
+  const handleShare = useCallback((text: string) => {
+    setCastPreviewText(text);
+    setShowCastPreview(true);
+  }, []);
+
+  const handleConfirmCast = useCallback(async (text: string) => {
+    setShowCastPreview(false);
+    try => {
       // First find the channel ID for "appreciation"
       const searchResponse = await fetch(
         `https://api.neynar.com/v2/farcaster/channel/search?q=appreciation`,
@@ -460,6 +468,34 @@ export default function Frame() {
                 >
                   Share Appreciation
                 </button>
+
+                {showCastPreview && (
+                  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+                    <div className="bg-white rounded-xl max-w-md w-full p-6 shadow-lg">
+                      <h3 className="text-lg font-semibold mb-4">Preview Cast</h3>
+                      <div className="prose prose-purple mb-4 bg-purple-50 rounded-lg p-4">
+                        {castPreviewText}
+                      </div>
+                      <div className="text-sm text-purple-600 mb-4">
+                        Will be posted to: <span className="font-medium">Appreciation Channel</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleConfirmCast(castPreviewText)}
+                          className="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+                        >
+                          Confirm Cast
+                        </button>
+                        <button
+                          onClick={() => setShowCastPreview(false)}
+                          className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded-lg transition-colors"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 <div className="mt-4 border-t border-purple-100 pt-4">
                   <div className="flex items-center justify-between">

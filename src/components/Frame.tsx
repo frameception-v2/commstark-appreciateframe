@@ -4,6 +4,7 @@ import { useEffect, useCallback, useState } from "react";
 import sdk, {
   type FrameContext,
 } from "@farcaster/frame-sdk";
+import { createStore } from "@walletconnect/mipd";
 
 type AppState = {
   words: string[];
@@ -49,6 +50,7 @@ export default function Frame() {
     return Object.keys(errors).length === 0;
   };
 
+  const [shareStatus, setShareStatus] = useState("");
   const [appState, setAppState] = useState<AppState>(() => {
     if (typeof window !== 'undefined') {
       try {
@@ -107,7 +109,7 @@ export default function Frame() {
         `https://api.neynar.com/v2/farcaster/cast/search?channel_id=appreciation&q=is:channel`,
         {
           headers: {
-            'api_key': process.env.NEXT_PUBLIC_NEYNAR_API_KEY!
+            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_NEYNAR_API_KEY!}`
           }
         }
       );

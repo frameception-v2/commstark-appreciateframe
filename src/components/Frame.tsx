@@ -2,7 +2,7 @@
 
 import { useEffect, useCallback, useState } from "react";
 import sdk, {
-  type Context,
+  type FrameContext,
 } from "@farcaster/frame-sdk";
 
 type AppState = {
@@ -26,7 +26,6 @@ import { createConfig } from "@wagmi/core";
 import { http } from "viem";
 import { base } from "wagmi/chains";
 import { truncateAddress } from "~/lib/truncateAddress";
-import { base } from "wagmi/chains";
 import { createStore } from "mipd";
 import { Label } from "~/components/ui/label";
 import { PROJECT_ID, PROJECT_TITLE, PROJECT_DESCRIPTION } from "~/lib/constants";
@@ -34,7 +33,7 @@ import { PROJECT_ID, PROJECT_TITLE, PROJECT_DESCRIPTION } from "~/lib/constants"
 
 export default function Frame() {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
-  const [context, setContext] = useState<Context.FrameContext>();
+  const [context, setContext] = useState<FrameContext>();
   const [inputErrors, setInputErrors] = useState<{word1?: string; word2?: string; word3?: string}>({});
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   

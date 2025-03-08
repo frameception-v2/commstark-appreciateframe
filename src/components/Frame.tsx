@@ -24,7 +24,7 @@ import {
 
 import { config } from "~/components/providers/WagmiProvider";
 import { truncateAddress } from "~/lib/truncateAddress";
-import { base, optimism } from "wagmi/chains";
+import { base } from "wagmi/chains";
 import { createStore } from "mipd";
 import { Label } from "~/components/ui/label";
 import { PROJECT_ID, PROJECT_TITLE, PROJECT_DESCRIPTION } from "~/lib/constants";

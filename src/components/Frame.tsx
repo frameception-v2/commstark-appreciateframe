@@ -35,7 +35,22 @@ import { PROJECT_TITLE, PROJECT_DESCRIPTION } from "~/lib/constants";
 export default function Frame() {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [context, setContext] = useState<Context.FrameContext>();
-  const [appState, setAppState] = useState<AppState>(initialAppState);
+  const [appState, setAppState] = useState<AppState>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem(`${PROJECT_ID}-state`);
+      return saved ? JSON.parse(saved) : initialAppState;
+    }
+    return initialAppState;
+  });
+
+  // Debounced autosave to localStorage
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      localStorage.setItem(`${PROJECT_ID}-state`, JSON.stringify(appState));
+    }, 500);
+    
+    return () => clearTimeout(timeout);
+  }, [appState]);
 
   const [added, setAdded] = useState(false);
 

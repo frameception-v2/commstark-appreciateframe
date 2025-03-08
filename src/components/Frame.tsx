@@ -79,6 +79,71 @@ export default function Frame() {
     return () => clearTimeout(timeout);
   }, [appState]);
 
+  // Notification scheduler
+  useEffect(() => {
+    const scheduleNotifications = async () => {
+      if (!appState.notificationTime) return;
+
+      // Request notification permission
+      if (Notification.permission !== 'granted') {
+        await Notification.requestPermission();
+      }
+
+      if (Notification.permission === 'granted') {
+        // Clear any existing notifications
+        localStorage.removeItem(`${PROJECT_ID}-notificationTimer`);
+        
+        // Calculate time until next notification
+        const now = Date.now();
+        const nextTime = getNextNotificationTime(appState.notificationTime);
+        const timeout = nextTime - now;
+
+        // Schedule notification
+        const timerId = window.setTimeout(() => {
+          new Notification(PROJECT_TITLE, {
+            body: "Time to reflect on today's appreciation!",
+            icon: '/icon.png'
+          });
+          // Reschedule for next day
+          setAppState(prev => ({...prev})); // Trigger re-schedule
+        }, timeout);
+
+        // Store timer ID
+        localStorage.setItem(`${PROJECT_ID}-notificationTimer`, timerId.toString());
+      }
+    };
+
+    const getNextNotificationTime = (timeOfDay: number) => {
+      const now = new Date();
+      const notificationTime = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      notificationTime.setTime(timeOfDay);
+      
+      if (now > notificationTime) {
+        notificationTime.setDate(notificationTime.getDate() + 1);
+      }
+      return notificationTime.getTime();
+    };
+
+    const triggerNotification = () => {
+      if (Notification.permission === 'granted') {
+        new Notification(PROJECT_TITLE, {
+          body: "Time to reflect on today's appreciation!",
+          icon: '/icon.png'
+        });
+      }
+    };
+
+    scheduleNotifications();
+    
+    // Clear timer on unmount
+    return () => {
+      const timerId = localStorage.getItem(`${PROJECT_ID}-notificationTimer`);
+      if (timerId) {
+        clearTimeout(parseInt(timerId));
+      }
+    };
+  }, [appState.notificationTime]);
+
   // Detect mobile keyboard via viewport height
   useEffect(() => {
     const handleViewportChange = () => {
